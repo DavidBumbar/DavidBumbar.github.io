@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+   <body style="text-align: center;">
+        <h1>Cronometro</h1>
+        <div class="circle">
+           <div class="circle-inner">
+                <div class="circle-inner-text" id="stopwatch">00:00:00</div>
+           </div>
+        </div>
+        <div class="button-container">
+           <button onclick="buttonInizio()">Inizio</button>
+           <button onclick="buttonTermina()">Ferma</button>
+           <button onclick="buttonReset()">Reset</button>
+        </div>
+   <script>
+       var startTime;
+       var stopwatchIterval;
+       var elapsedPausedTime = 0;
+
+
+
+
+       function buttonInizio() {
+       if (!stopwatchIterval) {
+         startTime = new Date().getTime() - elapsedPausedTime;
+         stopwatchIterval = setInterval(updateStopwatch, 1000);
+       }
+     }
+
+
+
+
+       function buttonTermina() {
+       clearInterval(stopwatchIterval);
+       elapsedPausedTime = new Date().getTime() - startTime;
+       stopwatchIterval = null;
+     }
+
+
+
+
+       function buttonReset(){
+       buttonTermina();
+       elapsedPausedTime = 0;
+       document.getElementById("stopwatch").innerHTML = "00:00:00";
+     }
+       function updateStopwatch(){
+       var correnteTempo = new Date().getTime();
+       var elapsedTime = correnteTempo - startTime;
+       var seconds = Math.floor(elapsedTime / 1000) % 60;
+       var minutes = Math.floor(elapsedTime / 1000 / 60) % 60;
+       var hours = Math.floor(elapsedTime / 1000 / 60 / 60);
+       var displayTime = pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
+       document.getElementById("stopwatch").innerHTML = displayTime;
+     }
+
+     function pad(number){
+       return (number < 10 ? "0" : "") + number;
+     }
+</script>
+<style>
+   body {
+       background-color: #070000;
+       font-family: Arial, sans-serif;
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+       align-items: center;
+       height: 100vh;
+       margin: 0;
+   }
+   .circle {
+       width: 200px;
+       height: 200px;
+       border-radius: 50%;
+       background-color: #f7f4f4;
+       border: 5px solid #f7f4f4;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       margin: 20px 0;
+   }
+   h1 {
+       color: #f7f4f4;
+       font-size: 48px;
+       margin-bottom: 20px;
+   }
+   #stopwatch {
+       color: #0f0000;
+       font-size: 48px;
+       margin: 0;
+   }
+   .button-container {
+       display: flex;
+       justify-content: center;
+       gap: 10px;
+       margin-top: 20px; }
+     button {
+       font-size: 24px;
+       padding: 10px 20px;
+       border: none;
+       border-radius: 5px;
+       background-color: #f7f4f4;
+       color: #070000;
+       cursor: pointer;
+     }
+     button:hover {
+       background-color: #ccc;
+     }
+</style>
+</body>
+</html>
+
+
+
+
+
+
+
+
